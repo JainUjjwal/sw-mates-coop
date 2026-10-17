@@ -35,6 +35,7 @@ export const SEED_CIRCLES = [
   {
     id: 'circle_iron',
     name: 'Iron Squad',
+    inviteCode: 'IRON44',
     emoji: '🏋️‍♂️',
     category: 'Gym & Lifting',
     wager: 'Loser buys post-workout protein smoothies for everyone',
@@ -48,6 +49,7 @@ export const SEED_CIRCLES = [
   {
     id: 'circle_family',
     name: 'Family Wellness',
+    inviteCode: 'FAM333',
     emoji: '🥗',
     category: 'Walks & Meals',
     wager: 'Loser cooks Sunday dinner for the whole family',

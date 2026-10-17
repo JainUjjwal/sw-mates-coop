@@ -291,23 +291,52 @@ class SweatCircleApp {
   }
 
   async promptNewCircle() {
+    const choice = prompt('Select an action:\n\n1: Create a New Circle\n2: Join with an Invite Code\n\nEnter 1 or 2:', '1');
+
+    if (choice === '2') {
+      const code = prompt('Enter the 6-character Invite Code (e.g., IRON44):');
+      if (!code) return;
+
+      const trimmedCode = code.trim().toUpperCase();
+      const targetCircle = this.circles.find(c => (c.inviteCode || '').toUpperCase() === trimmedCode || c.id.toUpperCase().endsWith(trimmedCode));
+
+      if (targetCircle) {
+        if (!targetCircle.members.some(m => m.id === this.currentUserId)) {
+          const targetDays = parseInt(prompt(`You are joining "${targetCircle.name}"!\nEnter your weekly day target (e.g. 3 or 4):`, '3'), 10) || 3;
+          targetCircle.members.push({ id: this.currentUserId, weeklyTargetDays: targetDays });
+          await db.put('circles', targetCircle);
+          alert(`🎉 Success! You joined "${targetCircle.name}". Your logs will now automatically sync with this group.`);
+        } else {
+          alert(`You are already a member of "${targetCircle.name}".`);
+        }
+        this.activeCircleId = targetCircle.id;
+        this.render();
+      } else {
+        alert(`❌ Invalid invite code "${code}". Please check with your circle host.`);
+      }
+      return;
+    }
+
+    if (choice !== '1') return;
+
     const name = prompt('Enter New Circle Name (e.g., "Run Club"):');
     if (!name) return;
 
     const emoji = prompt('Choose an Emoji for this Circle:', '⚡') || '⚡';
     const wager = prompt('What is the Weekly Wager for this circle?', 'Loser buys coffee') || 'Loser buys coffee';
     const targetDays = parseInt(prompt('Your weekly day target for this circle (e.g. 3 or 4):', '3'), 10) || 3;
+    const inviteCode = (name.replace(/[^A-Za-z]/g, '').slice(0, 4).toUpperCase() || 'SQUAD') + Math.floor(10 + Math.random() * 90);
 
     const newCircle = {
       id: `circle_${Date.now()}`,
       name,
+      inviteCode,
       emoji,
       category: 'Custom Circle',
       wager,
       weeklyStreak: 0,
       members: [
-        { id: this.currentUserId, weeklyTargetDays: targetDays },
-        { id: 'user_sam', weeklyTargetDays: targetDays }
+        { id: this.currentUserId, weeklyTargetDays: targetDays }
       ]
     };
 
@@ -315,6 +344,7 @@ class SweatCircleApp {
     this.circles.push(newCircle);
     this.activeCircleId = newCircle.id;
     this.render();
+    alert(`🎉 Circle Created!\n\nYour Circle Invite Code is: ${inviteCode}\nShare this code with your friends so they can join!`);
   }
 
   render() {

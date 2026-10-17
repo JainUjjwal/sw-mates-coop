@@ -16,9 +16,15 @@
 ## Checkpoint 2: Codebase Publishing Complete
 - [x] Tasks 14-16 complete.
 
-## Phase 3: Deferred User Action Items (TODO for Later)
-- [ ] Task 17: User Setup — Push Code to Private GitHub Repository (COMPLETED)
-- [ ] Task 18: User Setup — Paste Supabase credentials into `www/js/config.js` (TODO for later)
-- [ ] Task 19: User Setup — Register Store Developer Accounts (TODO for later)
-  - Apple Developer Program: $99/year at developer.apple.com/programs
-  - Google Play Console: $25 one-time at play.google.com/console/signup
+## Phase 3: Live Cloud Realtime Sync & Code Polish (Active Code Path)
+- [x] Task 20: Auto-Sync `circle_logs` and `circles` with Supabase in `main.js`
+  - Wire `cloudSync.syncLog(...)` and `cloudSync.fetchCircleLogs(...)` into `handleLogSubmit` and `loadState` so new photos and circle stats mirror to Supabase in real-time when online.
+- [x] Task 21: Add Shareable Circle Invite Code / Deep Link
+  - Generate a 6-character invite code (e.g., `IRON99`) so friends can type or paste a code to join an existing circle instantly.
+- [ ] Task 22: Add Interactive SweatCam Gallery Filter (All vs. Workouts vs. Meals)
+  - Allow filtering the circle feed by Workouts or Meals.
+
+## Phase 4: Deferred Publishing & Release Actions (TODO for Later)
+- [ ] Task 23: Host Privacy Policy page (`www/privacy.html`) via Vercel / Netlify / Cloudflare Pages
+- [ ] Task 24: Register Apple Developer Program ($99/year) & Google Play Console ($25 one-time)
+- [ ] Task 25: Generate 1024x1024 Store App Icon & Screenshots for Store Listing

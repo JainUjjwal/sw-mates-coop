@@ -55,6 +55,7 @@ export class StreakEngine {
     return {
       circleId: circle.id,
       circleName: circle.name,
+      inviteCode: circle.inviteCode || circle.id.slice(-6).toUpperCase(),
       weeklyStreak: circle.weeklyStreak,
       allMembersMetTarget,
       memberProgress,

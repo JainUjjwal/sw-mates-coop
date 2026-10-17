@@ -26,6 +26,14 @@ export class FeedViewComponent {
                 🔥 ${circleStatus.weeklyStreak} Weeks
               </span>
             </h2>
+            ${circleStatus.inviteCode ? `
+              <div class="mt-1 flex items-center space-x-1.5">
+                <span class="text-[10px] text-slate-400">Invite Code:</span>
+                <button class="btn-copy-invite text-[10px] font-mono font-bold text-orange-400 bg-slate-950 px-2 py-0.5 rounded-lg border border-slate-700 hover:border-orange-500 transition" data-code="${circleStatus.inviteCode}" title="Click to copy invite code">
+                  ${circleStatus.inviteCode} 📋
+                </button>
+              </div>
+            ` : ''}
           </div>
           <div class="text-right">
             <span class="text-2xl font-black ${isWagerAtRisk ? 'text-amber-400' : 'text-emerald-400'}">
@@ -191,6 +199,16 @@ export class FeedViewComponent {
       btn.addEventListener('click', (e) => {
         const userId = e.currentTarget.getAttribute('data-user-id');
         this.onNudgeMember(userId);
+      });
+    });
+
+    this.container.querySelectorAll('.btn-copy-invite').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const code = e.currentTarget.getAttribute('data-code');
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(code);
+        }
+        alert(`📋 Invite Code Copied!\n\nShare code "${code}" with your friends so they can join ${circleStatus.circleName}!`);
       });
     });
 
