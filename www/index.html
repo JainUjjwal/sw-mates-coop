@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-950 text-slate-100">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>SweatCircle — Cooperative Fitness</title>
+  <!-- Tailwind CSS CDN for zero-Node instant execution -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="styles/mobile-chassis.css">
+</head>
+<body class="h-full flex justify-center items-center bg-slate-900 font-sans antialiased overflow-hidden">
+
+  <!-- Desktop Backdrop Container & Mobile Chassis Frame -->
+  <div id="mobile-chassis" class="relative w-full h-full sm:max-w-[430px] sm:max-h-[900px] sm:rounded-[44px] sm:border-[8px] sm:border-slate-800 bg-slate-950 flex flex-col shadow-2xl overflow-hidden">
+    
+    <!-- Mobile Status Bar / Safe Area Top -->
+    <header class="pt-[calc(var(--safe-top)+12px)] px-4 pb-3 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 flex justify-between items-center z-30">
+      <div id="circle-header-container" class="flex items-center space-x-2">
+        <!-- Rendered by circle-switcher.js -->
+      </div>
+      <div class="flex items-center space-x-2">
+        <button id="btn-open-settings" class="w-7 h-7 rounded-full bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center text-xs font-bold border border-slate-700 transition" title="Settings & Privacy">
+          ⚙️
+        </button>
+        <button id="btn-run-tests" class="px-2.5 py-1 text-xs font-semibold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 rounded-full hover:bg-emerald-500/30 transition">
+          🧪 Tests
+        </button>
+        <div id="user-avatar-pill" class="flex items-center space-x-1.5 bg-slate-800 py-1 px-2.5 rounded-full border border-slate-700">
+          <!-- Rendered by circle-switcher.js -->
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Viewport Router Container -->
+    <main id="app-viewport" class="flex-1 overflow-y-auto px-4 py-4 pb-24 space-y-4">
+      <!-- Active Tab Content dynamically rendered here -->
+    </main>
+
+    <!-- Native Mobile Bottom Tab Bar -->
+    <nav class="absolute bottom-0 inset-x-0 bg-slate-900/95 backdrop-blur-lg border-t border-slate-800 pb-[calc(var(--safe-bottom)+8px)] pt-2 px-6 flex justify-around items-center z-30">
+      <button class="nav-tab flex flex-col items-center text-orange-500 transition" data-tab="feed">
+        <span class="text-xl">🔥</span>
+        <span class="text-[11px] font-medium mt-0.5">Circle</span>
+      </button>
+
+      <button class="nav-tab flex flex-col items-center text-slate-400 hover:text-slate-200 transition" data-tab="watch">
+        <span class="text-xl">⌚</span>
+        <span class="text-[11px] font-medium mt-0.5">Wearables</span>
+      </button>
+
+      <!-- Center Snap Button (SweatCam) -->
+      <button id="btn-open-log-modal" class="relative -top-3 w-14 h-14 rounded-full bg-gradient-to-tr from-orange-500 to-amber-400 text-slate-950 flex items-center justify-center text-2xl shadow-lg shadow-orange-500/40 hover:scale-105 active:scale-95 transition">
+        📸
+      </button>
+
+      <button class="nav-tab flex flex-col items-center text-slate-400 hover:text-slate-200 transition" data-tab="ranks">
+        <span class="text-xl">🏆</span>
+        <span class="text-[11px] font-medium mt-0.5">Ranks & XP</span>
+      </button>
+
+      <button id="btn-new-circle" class="flex flex-col items-center text-slate-400 hover:text-slate-200 transition">
+        <span class="text-xl">👥</span>
+        <span class="text-[11px] font-medium mt-0.5">Join/New</span>
+      </button>
+    </nav>
+
+    <!-- Modal Containers -->
+    <div id="modal-container" class="hidden fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-slate-950/80 backdrop-blur-sm">
+      <!-- Modal Content rendered dynamically -->
+    </div>
+  </div>
+
+  <!-- Application Bootstrap -->
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

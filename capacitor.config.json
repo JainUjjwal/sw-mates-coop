@@ -1,0 +1,11 @@
+{
+  "appId": "com.sweatcircle.app",
+  "appName": "SweatCircle",
+  "webDir": "www",
+  "bundledWebRuntime": false,
+  "plugins": {
+    "Camera": {
+      "permissionsType": "camera"
+    }
+  }
+}
