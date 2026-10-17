@@ -28,7 +28,8 @@ jobs:
 
       - name: Add Capacitor Android Platform
         run: |
-          npx cap add android || true
+          npm install @capacitor/android@^6.0.0
+          npx cap add android
           npx cap sync android
 
       - name: Build Android Release AAB / APK
