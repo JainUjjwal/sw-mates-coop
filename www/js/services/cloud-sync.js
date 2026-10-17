@@ -1,11 +1,19 @@
+let SUPABASE_CONFIG = { url: '', anonKey: '' };
+try {
+  const cfg = await import('../config.js');
+  SUPABASE_CONFIG = cfg.SUPABASE_CONFIG;
+} catch (e) {
+  // config.js is gitignored; fall back to window globals or empty
+}
+
 /**
  * Pluggable Cloud Sync Adapter ($0/Month Free Tier Ready)
  * Seamlessly transitions between offline IndexedDB and free-tier Supabase/Firebase
  */
 export class CloudSyncAdapter {
   constructor({ supabaseUrl = null, supabaseAnonKey = null } = {}) {
-    this.supabaseUrl = supabaseUrl || window.SWEATCIRCLE_SUPABASE_URL || null;
-    this.supabaseAnonKey = supabaseAnonKey || window.SWEATCIRCLE_SUPABASE_KEY || null;
+    this.supabaseUrl = supabaseUrl || SUPABASE_CONFIG.url || window.SWEATCIRCLE_SUPABASE_URL || null;
+    this.supabaseAnonKey = supabaseAnonKey || SUPABASE_CONFIG.anonKey || window.SWEATCIRCLE_SUPABASE_KEY || null;
     this.isOnlineSyncConfigured = Boolean(this.supabaseUrl && this.supabaseAnonKey);
   }
 

@@ -1,0 +1,20 @@
+# Dependencies
+node_modules/
+
+# Local Environment & Secrets
+www/js/config.js
+.env
+.env.local
+
+# Native Build Artifacts & Caches
+ios/
+android/
+*.apk
+*.aab
+*.ipa
+.gradle/
+build/
+
+# OS Metadata
+.DS_Store
+Thumbs.db
