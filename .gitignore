@@ -5,6 +5,7 @@ node_modules/
 www/js/config.js
 .env
 .env.local
+tasks/
 
 # Native Build Artifacts & Caches
 ios/

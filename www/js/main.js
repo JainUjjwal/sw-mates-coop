@@ -8,6 +8,7 @@ import { StreakEngine } from './services/streak-engine.js';
 import { WatchSyncService } from './services/watch-sync.js';
 import { XpAchievementsEngine } from './services/xp-achievements.js';
 import { getLocalDateKey } from './services/date-utils.js';
+import { cloudSync } from './services/cloud-sync.js';
 
 import { CircleSwitcherComponent } from './ui/circle-switcher.js';
 import { FeedViewComponent } from './ui/feed-view.js';
@@ -94,6 +95,27 @@ class SweatCircleApp {
     this.profiles = await db.getAll('profiles');
     this.circles = await db.getAll('circles');
     this.logs = await db.getAll('logs');
+
+    // Fetch cloud logs if online sync configured
+    if (cloudSync.isOnlineSyncConfigured && this.activeCircleId) {
+      const cloudLogs = await cloudSync.fetchCircleLogs(this.activeCircleId);
+      for (const cl of cloudLogs) {
+        if (!this.logs.some(l => l.id === cl.id)) {
+          const formatted = {
+            id: cl.id,
+            userId: cl.user_id,
+            type: cl.type,
+            photoUrl: cl.photo_url,
+            caption: cl.caption,
+            telemetry: cl.telemetry,
+            dateKey: cl.date_key,
+            createdAt: cl.created_at
+          };
+          await db.put('logs', formatted);
+          this.logs.unshift(formatted);
+        }
+      }
+    }
     
     const myProgression = await db.get('progression', this.currentUserId);
     this.progression = myProgression || { userId: this.currentUserId, xp: 0, level: 1, badges: [] };
@@ -212,6 +234,18 @@ class SweatCircleApp {
     // 1. Save log to IndexedDB (stored once for this user)
     await db.put('logs', newLog);
     this.logs.unshift(newLog);
+
+    // 1b. Mirror to Supabase cloud if configured ($0/month cross-device sync)
+    cloudSync.syncLog({
+      id: logId,
+      circle_id: this.activeCircleId,
+      user_id: this.currentUserId,
+      type,
+      photo_url: photoUrl,
+      caption,
+      telemetry,
+      date_key: dateKey
+    }).catch(err => console.warn('Background cloud sync:', err));
 
     // 2. Compute XP & Overcompletion rewards
     const activeCircle = this.circles.find(c => c.id === this.activeCircleId) || this.circles[0];
