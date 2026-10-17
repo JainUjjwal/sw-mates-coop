@@ -28,15 +28,16 @@ jobs:
 
       - name: Add Capacitor Android Platform
         run: |
-          npm install @capacitor/android@^6.0.0
-          npx cap add android
+          if [ ! -d "android" ]; then
+            npx cap add android
+          fi
           npx cap sync android
 
       - name: Build Android Release AAB / APK
         working-directory: android
         run: |
           chmod +x ./gradlew
-          ./gradlew assembleDebug
+          ./gradlew assembleDebug --stacktrace
 
       - name: Upload Android Build Artifact
         uses: actions/upload-artifact@v4
